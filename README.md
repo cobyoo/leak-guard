@@ -8,7 +8,7 @@ Catch leaked API keys, tokens, and credentials **before** they reach your reposi
 
 | | **leak-guard** | gitleaks | trufflehog |
 |---|---|---|---|
-| Detection rate | **9/7 secrets** | 0/7 | 0/7 |
+| Detection rate | **7/7 secrets** | 0/7 | 0/7 |
 | Language | Pure Python | Go | Python |
 | Dependencies | **0** | - | Many |
 | Setup | `pip install leak-guard` | Binary download | pip + extras |
@@ -16,19 +16,17 @@ Catch leaked API keys, tokens, and credentials **before** they reach your reposi
 | Regional support | **Built-in plugins** | Global only | Global only |
 | SARIF output | Yes | Yes | No |
 
-> *9/7 = found all 7 embedded secrets + 2 additional generic pattern matches*
-
 ## Benchmark
 
 Tested on 501 files, 100k lines, 7 embedded secrets (AWS, GitHub, PostgreSQL, RSA, Kakao, Anthropic, HuggingFace):
 
 | Tool | Time | Lines/sec | Secrets Found |
 |------|------|-----------|---------------|
-| **leak-guard** | 0.35s | 288k | **9/7** |
+| **leak-guard** | 0.35s | 288k | **7/7** |
 | gitleaks | 0.03s | 3,077k | 0/7 |
 | trufflehog | 0.11s | 882k | 0/7 |
 
-**gitleaks** and **trufflehog** are faster (Go binary / verified-only approach), but miss unverified secrets in file scans. leak-guard prioritizes **detection coverage** — catching every secret matters more than raw speed.
+gitleaks and trufflehog are faster (Go binary / verified-only approach), but miss unverified secrets in file scans. leak-guard prioritizes **detection coverage** — catching every secret matters more than raw speed.
 
 ```bash
 # Run the comparison yourself
