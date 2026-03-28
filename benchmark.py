@@ -1,11 +1,11 @@
-"""Benchmark leak-guard scanning speed."""
+"""Benchmark keytrap scanning speed."""
 
 import tempfile
 import time
 from pathlib import Path
 
-from leak_guard.patterns import get_patterns
-from leak_guard.scanner import scan_content, scan_directory
+from keytrap.patterns import get_patterns
+from keytrap.scanner import scan_content, scan_directory
 
 
 def generate_test_files(directory: Path, num_files: int = 500, lines_per_file: int = 200):
@@ -63,7 +63,7 @@ def run_benchmark():
         num_files = 500
         lines_per_file = 200
 
-        print(f"leak-guard benchmark")
+        print(f"keytrap benchmark")
         print(f"{'=' * 50}")
         print(f"Patterns loaded:  {num_patterns}")
         print(f"Test files:       {num_files}")

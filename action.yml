@@ -1,5 +1,5 @@
-name: "leak-guard"
-description: "Fast, lightweight secret detection with 60+ patterns"
+name: "keytrap"
+description: "Lightweight, extensible secret detection that actually catches secrets"
 author: "cobyoo"
 
 branding:
@@ -36,9 +36,9 @@ runs:
       with:
         python-version: "3.x"
 
-    - name: Install leak-guard
+    - name: Install keytrap
       shell: bash
-      run: pip install leak-guard
+      run: pip install keytrap
 
     - name: Run scan
       shell: bash
@@ -62,4 +62,4 @@ runs:
             ARGS="$ARGS --exclude-category $cat"
           done
         fi
-        leak-guard $ARGS
+        keytrap $ARGS

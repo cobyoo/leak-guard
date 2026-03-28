@@ -27,7 +27,7 @@ jobs:
         run: pytest tests/ -v
 
       - name: Self-scan
-        run: python -m leak_guard .
+        run: python -m keytrap .
 
   lint:
     runs-on: ubuntu-latest

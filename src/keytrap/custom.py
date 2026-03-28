@@ -1,4 +1,4 @@
-"""Load custom patterns from .leakguard.yml files."""
+"""Load custom patterns from .keytrap.yml files."""
 
 import re
 from pathlib import Path
@@ -6,14 +6,13 @@ from pathlib import Path
 from .patterns import SecretPattern
 
 try:
-    # PyYAML is optional — custom patterns only work if installed
     import yaml
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
 
 
-DEFAULT_CONFIG_NAME = ".leakguard.yml"
+DEFAULT_CONFIG_NAME = ".keytrap.yml"
 
 
 def find_config(start: Path | None = None) -> Path | None:

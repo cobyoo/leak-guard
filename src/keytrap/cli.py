@@ -1,4 +1,4 @@
-"""Command-line interface for leak-guard."""
+"""Command-line interface for keytrap."""
 
 import argparse
 import sys
@@ -12,8 +12,8 @@ from .custom import find_config, load_custom_patterns, load_allowlist
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="leak-guard",
-        description="Fast, lightweight, extensible secret detection. Zero dependencies.",
+        prog="keytrap",
+        description="Lightweight, extensible secret detection that actually catches secrets.",
     )
     parser.add_argument(
         "path",
@@ -83,7 +83,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--config",
         type=Path,
         default=None,
-        help="path to .leakguard.yml config file",
+        help="path to .keytrap.yml config file",
     )
     return parser
 
@@ -150,7 +150,7 @@ def main(argv: list[str] | None = None) -> None:
             except (OSError, PermissionError):
                 continue
             for line_number, line in enumerate(content.splitlines(), start=1):
-                if "leak-guard:ignore" in line:
+                if "keytrap:ignore" in line:
                     continue
                 for matched_text, entropy in find_high_entropy(line):
                     findings.append(Finding(

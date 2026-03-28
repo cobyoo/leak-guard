@@ -1,6 +1,6 @@
 """Tests for secret detection patterns."""
 
-from leak_guard.scanner import scan_content
+from keytrap.scanner import scan_content
 
 
 # ── Cloud ────────────────────────────────────────────────────────
@@ -172,7 +172,7 @@ def foo():
 
 
 def test_inline_ignore():
-    content = 'API_KEY = "AKIAIOSFODNN7EXAMPLE"  # leak-guard:ignore'
+    content = 'API_KEY = "AKIAIOSFODNN7EXAMPLE"  # keytrap:ignore'
     findings = scan_content(content)
     assert len(findings) == 0
 
@@ -182,3 +182,10 @@ def test_category_field():
     findings = scan_content(content)
     github_findings = [f for f in findings if "GitHub" in f.pattern_name]
     assert github_findings[0].category == "vcs"
+
+
+def test_dedup_no_generic_duplicates():
+    content = 'KAKAO_REST_API_KEY = "abcdef1234567890abcdef1234567890"'
+    findings = scan_content(content)
+    assert len(findings) == 1
+    assert "Kakao" in findings[0].pattern_name

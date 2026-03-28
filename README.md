@@ -1,17 +1,17 @@
-# leak-guard
+# keytrap
 
 > Lightweight, extensible secret detection that actually catches secrets. Zero dependencies.
 
 Catch leaked API keys, tokens, and credentials **before** they reach your repository. 60+ patterns across 11 categories, with the highest out-of-box detection rate among open-source tools.
 
-## Why leak-guard?
+## Why keytrap?
 
-| | **leak-guard** | gitleaks | trufflehog |
+| | **keytrap** | gitleaks | trufflehog |
 |---|---|---|---|
 | Detection rate | **7/7 secrets** | 0/7 | 0/7 |
 | Language | Pure Python | Go | Python |
 | Dependencies | **0** | - | Many |
-| Setup | `pip install leak-guard` | Binary download | pip + extras |
+| Setup | `pip install keytrap` | Binary download | pip + extras |
 | Custom patterns | **YAML — one line** | TOML config | Complex |
 | Regional support | **Built-in plugins** | Global only | Global only |
 | SARIF output | Yes | Yes | No |
@@ -22,11 +22,11 @@ Tested on 501 files, 100k lines, 7 embedded secrets (AWS, GitHub, PostgreSQL, RS
 
 | Tool | Time | Lines/sec | Secrets Found |
 |------|------|-----------|---------------|
-| **leak-guard** | 0.35s | 288k | **7/7** |
+| **keytrap** | 0.35s | 288k | **7/7** |
 | gitleaks | 0.03s | 3,077k | 0/7 |
 | trufflehog | 0.11s | 882k | 0/7 |
 
-gitleaks and trufflehog are faster (Go binary / verified-only approach), but miss unverified secrets in file scans. leak-guard prioritizes **detection coverage** — catching every secret matters more than raw speed.
+gitleaks and trufflehog are faster (Go binary / verified-only approach), but miss unverified secrets in file scans. keytrap prioritizes **detection coverage** — catching every secret matters more than raw speed.
 
 ```bash
 # Run the comparison yourself
@@ -36,26 +36,26 @@ python benchmark_compare.py
 ## Installation
 
 ```bash
-pip install leak-guard
+pip install keytrap
 ```
 
 ## Quick Start
 
 ```bash
 # Scan current directory
-leak-guard .
+keytrap .
 
 # Scan a specific file
-leak-guard src/config.py
+keytrap src/config.py
 
 # Only high severity
-leak-guard --severity high .
+keytrap --severity high .
 
 # JSON output for CI/CD
-leak-guard --format json .
+keytrap --format json .
 
 # SARIF output for GitHub Advanced Security
-leak-guard --format sarif . > results.sarif
+keytrap --format sarif . > results.sarif
 ```
 
 ## Advanced Features
@@ -65,7 +65,7 @@ leak-guard --format sarif . > results.sarif
 Catch random/high-entropy secrets that don't match any known pattern:
 
 ```bash
-leak-guard --entropy .
+keytrap --entropy .
 ```
 
 ### Git history scan
@@ -74,16 +74,16 @@ Scan past commits for leaked secrets:
 
 ```bash
 # Scan last 50 commits
-leak-guard --scan-history 50
+keytrap --scan-history 50
 
 # Scan diff from a specific commit
-leak-guard --diff HEAD~5
+keytrap --diff HEAD~5
 ```
 
 ### GitHub Action
 
 ```yaml
-- uses: cobyoo/leak-guard@v1
+- uses: cobyoo/keytrap@v1
   with:
     severity: high
     format: sarif
@@ -95,16 +95,16 @@ Add to `.pre-commit-config.yaml`:
 
 ```yaml
 repos:
-  - repo: https://github.com/cobyoo/leak-guard
+  - repo: https://github.com/cobyoo/keytrap
     rev: v0.2.0
     hooks:
-      - id: leak-guard
+      - id: keytrap
 ```
 
 ## Pattern Categories
 
 ```bash
-leak-guard --list-categories
+keytrap --list-categories
 ```
 
 | Category | Examples | Count |
@@ -125,15 +125,15 @@ leak-guard --list-categories
 
 ```bash
 # Only check cloud and payments
-leak-guard --category cloud --category payments .
+keytrap --category cloud --category payments .
 
 # Exclude regional patterns
-leak-guard --exclude-category regional_kr .
+keytrap --exclude-category regional_kr .
 ```
 
 ## Custom Patterns
 
-Create `.leakguard.yml` in your project root:
+Create `.keytrap.yml` in your project root:
 
 ```yaml
 patterns:
@@ -157,7 +157,7 @@ allowlist:
 Suppress a specific line:
 
 ```python
-api_key = "not-a-real-key"  # leak-guard:ignore
+api_key = "not-a-real-key"  # keytrap:ignore
 ```
 
 ## CI/CD Integration
@@ -167,8 +167,8 @@ api_key = "not-a-real-key"  # leak-guard:ignore
 ```yaml
 - name: Secret Scan
   run: |
-    pip install leak-guard
-    leak-guard --format sarif . > results.sarif
+    pip install keytrap
+    keytrap --format sarif . > results.sarif
 
 - name: Upload SARIF
   uses: github/codeql-action/upload-sarif@v3
@@ -181,8 +181,8 @@ api_key = "not-a-real-key"  # leak-guard:ignore
 ```yaml
 secret-scan:
   script:
-    - pip install leak-guard
-    - leak-guard --format json . > gl-secret-detection-report.json
+    - pip install keytrap
+    - keytrap --format json . > gl-secret-detection-report.json
   artifacts:
     reports:
       secret_detection: gl-secret-detection-report.json

@@ -1,5 +1,5 @@
-# leak-guard custom configuration
-# Copy this file to .leakguard.yml in your project root
+# keytrap custom configuration
+# Copy this file to .keytrap.yml in your project root
 
 # Custom patterns for your organization
 patterns:

@@ -95,7 +95,7 @@ def report_sarif(findings: list[Finding]) -> str:
         "runs": [{
             "tool": {
                 "driver": {
-                    "name": "leak-guard",
+                    "name": "keytrap",
                     "rules": list(rules.values()),
                 }
             },

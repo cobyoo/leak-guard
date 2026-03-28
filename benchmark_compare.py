@@ -1,4 +1,4 @@
-"""Compare leak-guard vs gitleaks vs trufflehog on the same test data."""
+"""Compare keytrap vs gitleaks vs trufflehog on the same test data."""
 
 import os
 import subprocess
@@ -82,18 +82,18 @@ def main():
         print(f"{'Tool':<20} {'Time (s)':<12} {'Lines/sec':<15} {'Findings'}")
         print("=" * 65)
 
-        # leak-guard
-        leak_guard_py = str(Path(__file__).parent / "src")
+        # keytrap
+        keytrap_py = str(Path(__file__).parent / "src")
         env = os.environ.copy()
-        env["PYTHONPATH"] = leak_guard_py
+        env["PYTHONPATH"] = keytrap_py
         elapsed, result = run_tool(
-            "leak-guard",
-            ["python3", "-m", "leak_guard", "--no-color", str(root)],
+            "keytrap",
+            ["python3", "-m", "keytrap", "--no-color", str(root)],
             cwd=root,
         )
         # Count findings from output
         findings = sum(1 for line in (result.stdout + result.stderr).splitlines() if line.strip().startswith("L"))
-        print(f"{'leak-guard':<20} {elapsed:<12.3f} {total_lines / elapsed:<15,.0f} {findings}")
+        print(f"{'keytrap':<20} {elapsed:<12.3f} {total_lines / elapsed:<15,.0f} {findings}")
 
         # gitleaks
         elapsed, result = run_tool(

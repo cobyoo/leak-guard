@@ -1,7 +1,7 @@
-- id: leak-guard
-  name: leak-guard
-  description: Detect secrets and API keys (including Korean services)
-  entry: leak-guard --pre-commit
+- id: keytrap
+  name: keytrap
+  description: Detect secrets and API keys in your code
+  entry: keytrap --pre-commit
   language: python
   types: [text]
   stages: [pre-commit]

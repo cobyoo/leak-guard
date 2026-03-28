@@ -25,7 +25,7 @@ SKIP_DIRS = frozenset({
     "coverage", ".coverage", "htmlcov",
 })
 
-INLINE_IGNORE = "leak-guard:ignore"
+INLINE_IGNORE = "keytrap:ignore"
 
 
 @dataclass(slots=True)
@@ -53,10 +53,8 @@ def dedup_line_findings(line_findings: list[Finding]) -> list[Finding]:
     generic = [f for f in line_findings if f.category in GENERIC_CATEGORIES]
 
     if not specific:
-        # All generic — keep the highest severity one per matched region
         return _dedup_by_overlap(generic)
 
-    # Drop generic findings whose matched_text overlaps with a specific finding
     specific_texts = {f.matched_text for f in specific}
     kept_generic = [
         g for g in generic
