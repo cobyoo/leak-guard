@@ -1,4 +1,5 @@
 """Entropy-based secret detection for random/high-entropy strings."""
+from __future__ import annotations
 
 import math
 import re

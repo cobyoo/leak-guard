@@ -1,4 +1,5 @@
 """Output formatting for scan results."""
+from __future__ import annotations
 
 import json
 import sys

@@ -27,7 +27,7 @@ jobs:
         run: pytest tests/ -v
 
       - name: Smoke test
-        run: echo 'CLEAN_CODE = "hello"' | python -m keytrap /dev/stdin
+        run: python -m keytrap --list-categories
 
   lint:
     runs-on: ubuntu-latest

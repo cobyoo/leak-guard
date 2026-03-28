@@ -3,9 +3,10 @@
 Organized by category: cloud, vcs, payments, messaging, databases,
 ci_cd, identity, crypto, generic, and regional extensions.
 """
+from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True)

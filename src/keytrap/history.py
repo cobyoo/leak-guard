@@ -1,7 +1,7 @@
 """Scan git history for leaked secrets."""
+from __future__ import annotations
 
 import subprocess
-from pathlib import Path
 
 from .patterns import SecretPattern, get_patterns
 from .scanner import Finding, scan_content

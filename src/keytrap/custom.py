@@ -1,4 +1,5 @@
 """Load custom patterns from .keytrap.yml files."""
+from __future__ import annotations
 
 import re
 from pathlib import Path
