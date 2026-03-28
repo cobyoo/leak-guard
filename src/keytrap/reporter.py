@@ -1,4 +1,5 @@
 """Output formatting for scan results."""
+
 from __future__ import annotations
 
 import json
@@ -79,29 +80,35 @@ def report_sarif(findings: list[Finding]) -> str:
                 },
             }
 
-        results.append({
-            "ruleId": rule_id,
-            "message": {"text": f"Potential secret detected: {f.pattern_name}"},
-            "locations": [{
-                "physicalLocation": {
-                    "artifactLocation": {"uri": f.file},
-                    "region": {"startLine": f.line_number},
-                }
-            }],
-        })
+        results.append(
+            {
+                "ruleId": rule_id,
+                "message": {"text": f"Potential secret detected: {f.pattern_name}"},
+                "locations": [
+                    {
+                        "physicalLocation": {
+                            "artifactLocation": {"uri": f.file},
+                            "region": {"startLine": f.line_number},
+                        }
+                    }
+                ],
+            }
+        )
 
     sarif = {
         "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
         "version": "2.1.0",
-        "runs": [{
-            "tool": {
-                "driver": {
-                    "name": "keytrap",
-                    "rules": list(rules.values()),
-                }
-            },
-            "results": results,
-        }],
+        "runs": [
+            {
+                "tool": {
+                    "driver": {
+                        "name": "keytrap",
+                        "rules": list(rules.values()),
+                    }
+                },
+                "results": results,
+            }
+        ],
     }
     return json.dumps(sarif, indent=2, ensure_ascii=False)
 
@@ -115,6 +122,8 @@ def print_summary(findings: list[Finding], use_color: bool = True) -> None:
     if total == 0:
         print("\n\u2705 No secrets detected.")
     else:
-        print(f"\n\u26a0\ufe0f  {total} potential secret(s) found: "
-              f"{high} high, {medium} medium, {low} low")
+        print(
+            f"\n\u26a0\ufe0f  {total} potential secret(s) found: "
+            f"{high} high, {medium} medium, {low} low"
+        )
         sys.exit(1)

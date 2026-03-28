@@ -1,4 +1,5 @@
 """Entropy-based secret detection for random/high-entropy strings."""
+
 from __future__ import annotations
 
 import math
@@ -17,9 +18,14 @@ GENERIC_RE = re.compile(r"['\"]([A-Za-z0-9_\-+/=.]{20,})['\"]")
 
 # Skip common non-secret patterns
 FALSE_POSITIVE_PREFIXES = (
-    "sha256:", "sha512:", "sha1:", "md5:",
-    "data:image", "data:application",
-    "https://", "http://",
+    "sha256:",
+    "sha512:",
+    "sha1:",
+    "md5:",
+    "data:image",
+    "data:application",
+    "https://",
+    "http://",
 )
 
 
@@ -30,10 +36,7 @@ def shannon_entropy(data: str) -> float:
     for c in data:
         freq[c] = freq.get(c, 0) + 1
     length = len(data)
-    return -sum(
-        (count / length) * math.log2(count / length)
-        for count in freq.values()
-    )
+    return -sum((count / length) * math.log2(count / length) for count in freq.values())
 
 
 def is_hex_string(s: str) -> bool:

@@ -1,4 +1,5 @@
 """Load custom patterns from .keytrap.yml files."""
+
 from __future__ import annotations
 
 import re
@@ -8,6 +9,7 @@ from .patterns import SecretPattern
 
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -45,7 +47,9 @@ def load_custom_patterns(config_path: Path) -> list[SecretPattern]:
         category = entry.get("category", "custom")
         if regex:
             try:
-                compiled = re.compile(regex, re.IGNORECASE if entry.get("ignorecase", False) else 0)
+                compiled = re.compile(
+                    regex, re.IGNORECASE if entry.get("ignorecase", False) else 0
+                )
                 patterns.append(SecretPattern(name, compiled, severity, category))
             except re.error:
                 continue

@@ -1,4 +1,5 @@
 """Scan git history for leaked secrets."""
+
 from __future__ import annotations
 
 import subprocess
@@ -18,7 +19,8 @@ def scan_git_history(
 
     result = subprocess.run(
         ["git", "log", f"-{max_commits}", "--pretty=format:%H", branch],
-        capture_output=True, text=True,
+        capture_output=True,
+        text=True,
     )
     if result.returncode != 0:
         return []
@@ -29,7 +31,8 @@ def scan_git_history(
     for commit_hash in commits:
         diff_result = subprocess.run(
             ["git", "diff-tree", "--no-commit-id", "-r", "-p", commit_hash],
-            capture_output=True, text=True,
+            capture_output=True,
+            text=True,
         )
         if diff_result.returncode != 0:
             continue
@@ -61,7 +64,8 @@ def scan_git_diff(
 
     result = subprocess.run(
         ["git", "diff", base, head],
-        capture_output=True, text=True,
+        capture_output=True,
+        text=True,
     )
     if result.returncode != 0:
         return []

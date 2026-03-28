@@ -5,6 +5,7 @@ from keytrap.scanner import scan_content
 
 # ── Cloud ────────────────────────────────────────────────────────
 
+
 def test_aws_access_key():
     content = 'aws_key = "AKIAIOSFODNN7EXAMPLE"'
     findings = scan_content(content)
@@ -18,18 +19,19 @@ def test_google_api_key():
 
 
 def test_azure_storage_key():
-    content = 'AccountKey=' + 'A' * 86 + '=='
+    content = "AccountKey=" + "A" * 86 + "=="
     findings = scan_content(content)
     assert any("Azure" in f.pattern_name for f in findings)
 
 
 def test_digitalocean_token():
-    content = 'token = "dop_v1_' + 'a' * 64 + '"'
+    content = 'token = "dop_v1_' + "a" * 64 + '"'
     findings = scan_content(content)
     assert any("DigitalOcean" in f.pattern_name for f in findings)
 
 
 # ── VCS ──────────────────────────────────────────────────────────
+
 
 def test_github_token():
     content = 'token = "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij"'
@@ -38,7 +40,7 @@ def test_github_token():
 
 
 def test_github_fine_grained_token():
-    content = 'token = "github_pat_' + 'A' * 22 + '"'
+    content = 'token = "github_pat_' + "A" * 22 + '"'
     findings = scan_content(content)
     assert any("Fine-grained" in f.pattern_name for f in findings)
 
@@ -50,46 +52,58 @@ def test_gitlab_token():
 
 
 def test_npm_token():
-    content = 'token = "npm_' + 'A' * 36 + '"'
+    content = 'token = "npm_' + "A" * 36 + '"'
     findings = scan_content(content)
     assert any("npm" in f.pattern_name for f in findings)
 
 
 # ── Payments ─────────────────────────────────────────────────────
 
+
 def test_stripe_key():
-    content = 'stripe_key = "sk_live_' + 'x' * 24 + '"'
+    content = 'stripe_key = "sk_live_' + "x" * 24 + '"'
     findings = scan_content(content)
     assert any("Stripe" in f.pattern_name for f in findings)
 
 
 def test_square_token():
-    content = 'token = "sq0atp-' + 'A' * 22 + '"'
+    content = 'token = "sq0atp-' + "A" * 22 + '"'
     findings = scan_content(content)
     assert any("Square" in f.pattern_name for f in findings)
 
 
 # ── Messaging ────────────────────────────────────────────────────
 
+
 def test_slack_webhook():
-    content = 'url = "https://hooks.slack.com/services/' + 'T' + '0' * 8 + '/B' + '0' * 8 + '/' + 'x' * 24 + '"'
+    content = (
+        'url = "https://hooks.slack.com/services/'
+        + "T"
+        + "0" * 8
+        + "/B"
+        + "0" * 8
+        + "/"
+        + "x" * 24
+        + '"'
+    )
     findings = scan_content(content)
     assert any("Slack" in f.pattern_name for f in findings)
 
 
 def test_sendgrid_key():
-    content = 'key = "SG.' + 'A' * 22 + '.' + 'B' * 43 + '"'
+    content = 'key = "SG.' + "A" * 22 + "." + "B" * 43 + '"'
     findings = scan_content(content)
     assert any("SendGrid" in f.pattern_name for f in findings)
 
 
 def test_twilio_key():
-    content = 'key = "SK' + 'a' * 32 + '"'
+    content = 'key = "SK' + "a" * 32 + '"'
     findings = scan_content(content)
     assert any("Twilio" in f.pattern_name for f in findings)
 
 
 # ── Databases ────────────────────────────────────────────────────
+
 
 def test_postgres_connection():
     content = 'DB_URL = "postgres://user:pass@localhost:5432/mydb"'
@@ -105,19 +119,21 @@ def test_mongodb_srv():
 
 # ── AI/ML ────────────────────────────────────────────────────────
 
+
 def test_anthropic_key():
-    content = 'key = "sk-ant-' + 'A' * 40 + '"'
+    content = 'key = "sk-ant-' + "A" * 40 + '"'
     findings = scan_content(content)
     assert any("Anthropic" in f.pattern_name for f in findings)
 
 
 def test_huggingface_token():
-    content = 'token = "hf_' + 'A' * 34 + '"'
+    content = 'token = "hf_' + "A" * 34 + '"'
     findings = scan_content(content)
     assert any("HuggingFace" in f.pattern_name for f in findings)
 
 
 # ── Crypto ───────────────────────────────────────────────────────
+
 
 def test_private_key():
     content = "-----BEGIN RSA PRIVATE KEY-----"
@@ -132,6 +148,7 @@ def test_jwt_token():
 
 
 # ── Regional: Korea ──────────────────────────────────────────────
+
 
 def test_kakao_rest_api_key():
     content = 'KAKAO_REST_API_KEY = "abcdef1234567890abcdef1234567890"'
@@ -152,6 +169,7 @@ def test_toss_payments_key():
 
 
 # ── Behavior ─────────────────────────────────────────────────────
+
 
 def test_no_false_positive_on_comments():
     content = '# KAKAO_REST_API_KEY = "abcdef1234567890abcdef1234567890"'

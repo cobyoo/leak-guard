@@ -1,4 +1,5 @@
 """Command-line interface for keytrap."""
+
 from __future__ import annotations
 
 import argparse
@@ -28,7 +29,8 @@ def build_parser() -> argparse.ArgumentParser:
         help="scan only git staged files",
     )
     parser.add_argument(
-        "--format", "-f",
+        "--format",
+        "-f",
         choices=["text", "json", "sarif"],
         default="text",
         help="output format (default: text)",
@@ -39,13 +41,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="disable colored output",
     )
     parser.add_argument(
-        "--severity", "-s",
+        "--severity",
+        "-s",
         choices=["high", "medium", "low"],
         default=None,
         help="minimum severity to report",
     )
     parser.add_argument(
-        "--category", "-c",
+        "--category",
+        "-c",
         choices=list(CATEGORIES.keys()),
         action="append",
         help="only scan specific categories (can repeat)",
@@ -117,9 +121,11 @@ def main(argv: list[str] | None = None) -> None:
     # Scan
     if args.scan_history is not None:
         from .history import scan_git_history
+
         findings = scan_git_history(max_commits=args.scan_history, patterns=patterns)
     elif args.diff is not None:
         from .history import scan_git_diff
+
         findings = scan_git_diff(base=args.diff, patterns=patterns)
     elif args.pre_commit:
         findings = scan_staged_files(patterns, allowlist)
@@ -139,11 +145,17 @@ def main(argv: list[str] | None = None) -> None:
         from .scanner import Finding, SKIP_DIRS, is_binary
 
         target = Path(args.path)
-        files = [target] if target.is_file() else [
-            p for p in target.rglob("*")
-            if p.is_file() and not is_binary(p)
-            and not any(s in p.parts for s in SKIP_DIRS)
-        ]
+        files = (
+            [target]
+            if target.is_file()
+            else [
+                p
+                for p in target.rglob("*")
+                if p.is_file()
+                and not is_binary(p)
+                and not any(s in p.parts for s in SKIP_DIRS)
+            ]
+        )
 
         for fpath in files:
             try:
@@ -154,15 +166,17 @@ def main(argv: list[str] | None = None) -> None:
                 if "keytrap:ignore" in line:
                     continue
                 for matched_text, entropy in find_high_entropy(line):
-                    findings.append(Finding(
-                        file=str(fpath),
-                        line_number=line_number,
-                        line=line.rstrip(),
-                        pattern_name=f"High Entropy String (entropy={entropy:.1f})",
-                        severity="medium",
-                        category="entropy",
-                        matched_text=matched_text,
-                    ))
+                    findings.append(
+                        Finding(
+                            file=str(fpath),
+                            line_number=line_number,
+                            line=line.rstrip(),
+                            pattern_name=f"High Entropy String (entropy={entropy:.1f})",
+                            severity="medium",
+                            category="entropy",
+                            matched_text=matched_text,
+                        )
+                    )
 
     # Filter by severity
     if args.severity:
