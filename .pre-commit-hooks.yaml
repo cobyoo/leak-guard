@@ -1,0 +1,7 @@
+- id: leak-guard
+  name: leak-guard
+  description: Detect secrets and API keys (including Korean services)
+  entry: leak-guard --pre-commit
+  language: python
+  types: [text]
+  stages: [pre-commit]
